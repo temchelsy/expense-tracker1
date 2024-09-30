@@ -27,7 +27,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api-v1/auth/sign-up`, {
+      const response = await fetch(`https://expense-tracker1-mbs9.onrender.com/api-v1/auth/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

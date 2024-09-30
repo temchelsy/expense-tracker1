@@ -33,7 +33,7 @@ export default function Register() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstname,  // Sending firstname to the backend
+          firstname,  
           email,
           password,
         }),
@@ -159,7 +159,7 @@ export default function Register() {
         <h4 className="text-primary mt-6">Already have an account?</h4>
         <Link
           to="/Login"
-          className="w-full bg-secondary text-white py-2 rounded-md hover:bg-secondary-dark transition-colors mt-2 text-center"
+          className="w-full bg-secondary text-black py-2 rounded-md hover:bg-secondary-dark transition-colors mt-2 text-center"
         >
           Login
         </Link>

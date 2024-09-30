@@ -18,7 +18,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/api-v1/auth/sign-in`, {
+      const response = await fetch(`https://expense-tracker1-mbs9.onrender.com/api-v1/auth/sign-in`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

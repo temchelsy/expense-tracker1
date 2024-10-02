@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Register from './auth/register';
-import Login from './auth/login'
+import Login from './auth/login';
 import { Link } from "react-router-dom";
 import { XIcon } from "@heroicons/react/outline";
 
@@ -40,7 +40,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">About Us</h2>
           <p className="text-lg text-center mb-6">
-           simple solution to manage <br></br>  all yours personal finances
+            Simple solution to manage all your personal finances.
           </p>
         </div>
       </section>
@@ -49,8 +49,8 @@ const LandingPage = () => {
       <section className="bg-blue-500 text-white py-20 mt-16">
         <div className="container mx-auto flex flex-col md:flex-row items-center px-4">
           <div className="md:w-1/2">
-            <h2 className="text-4xl font-bold mb-2">simple Expense tracker</h2>
-            <p className="text-lg mb-6">it takes second to record daily <br></br>transaction put them into clear<br></br> and visualized categories such as food rent electricity bills</p>
+            <h2 className="text-4xl font-bold mb-2">Simple Expense Tracker</h2>
+            <p className="text-lg mb-6">It takes seconds to record daily transactions and put them into clear and visualized categories such as food, rent, and electricity bills.</p>
             <button onClick={openRegisterModal} className="px-6 py-3 bg-white text-blue-500 rounded hover:bg-gray-200">Get Started</button>
           </div>
         </div>
@@ -59,23 +59,30 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-blue-500 text-white py-8">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2024 ExpenseEase. All rights reserved.</p>
-          <p className="mt-4">Contact us: <a href className="underline">ExpenseEase@gmail.com</a></p>
+          <p>© 2024 ExpenseEase. All rights reserved.</p>
+          <p className="mt-4">Contact us: <a href="mailto:ExpenseEase@gmail.com" className="underline">ExpenseEase@gmail.com</a></p>
         </div>
       </footer>
 
       {/* Modal for Login/Register */}
       {showModal && (
-        <div className="fixed inset-0 bg-blue-500 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="fixed inset-0 z-40" onClick={closeModal} />
-          <div className="bg-white p-8 rounded shadow-lg w-full max-w-md z-50 relative">
-            <button className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700 focus:outline-none" onClick={closeModal}>
-              <XIcon className="h-6 w-6" />
-            </button>
-            {isLoginModal ? <Login /> : <Register />}
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 bg-blue-500 bg-opacity-50 flex items-center justify-center z-0">
+    <div className="fixed inset-0 z-40" onClick={closeModal} />
+    <div
+      className="bg-white p-6 rounded shadow-lg w-full max-w-md z-50 relative md:w-4/4"
+      style={{ height: '93%', maxHeight: '93%' }} // Reduced height by 7%
+    >
+      <button
+        className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+        onClick={closeModal}
+      >
+        <XIcon className="h-6 w-6" />
+      </button>
+      {isLoginModal ? <Login /> : <Register />}
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

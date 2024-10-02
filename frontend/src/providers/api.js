@@ -6,7 +6,7 @@ const fetchCurrentUser = async () => {
   if (!token) return null;
 
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/current-user`, {
+    const response = await fetch(`https://expense-tracker1-mbs9.onrender.com/api-v1/auth/`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

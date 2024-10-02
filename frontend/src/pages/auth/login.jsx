@@ -1,15 +1,12 @@
-// import { API_BASE_URL } from "../../contants/contants";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppContext } from "../../providers/app-context";
+import { useAppContext } from "../../providers/app-context"; 
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { setCurrentUser } = useAppContext();
+  const { setCurrentUser } = useAppContext(); // Access context to set current user
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -23,10 +20,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -37,8 +31,8 @@ export default function Login() {
 
       const data = await response.json();
       localStorage.setItem("token", data.token);
-      setCurrentUser(data.user);
-      navigate("/dashboard");
+      setCurrentUser(data.user); // Update the current user in context
+      navigate("/dashboard"); // Redirect user after login
     } catch (error) {
       console.error("Error logging in:", error);
       setErrorMessage("An unexpected error occurred. Please try again.");
@@ -65,10 +59,6 @@ export default function Login() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:border-secondary focus:ring-secondary"
                 required
               />
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                className="absolute right-3 top-3 text-primary"
-              />
             </div>
           </div>
 
@@ -85,10 +75,6 @@ export default function Login() {
                 onChange={handlePasswordChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:border-secondary focus:ring-secondary"
                 required
-              />
-              <FontAwesomeIcon
-                icon={faLock}
-                className="absolute right-3 top-3 text-primary"
               />
             </div>
           </div>

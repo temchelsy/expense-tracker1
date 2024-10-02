@@ -49,7 +49,7 @@ const Navbar = () => {
             </>
           ) : (
             <p className="text-lg font-medium text-black dark:text-gray-400">
-              Guest
+              logout
             </p>
           )}
         </div>

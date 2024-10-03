@@ -26,15 +26,18 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ status: "failed", message: "Unauthorized: User not found." });
     }
 
-    // Attach user information to the req.body object (consistent with your controller)
-    req.body.user = user;
+    // Attach user information to req.user
+    req.user = user;
 
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
+    if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
+      return res.status(401).json({ status: "failed", message: "Unauthorized: Invalid or expired token." });
+    }
+
     console.error("Authentication error:", error);
     res.status(500).json({ status: "failed", message: "Internal Server Error." });
   }
 };
-
 
 export default authMiddleware;

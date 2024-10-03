@@ -132,38 +132,41 @@ export const getDashboardInformation = async (req, res) => {
 export const addTransaction = async (req, res) => {
   try {
     const { id: userId } = req.user; // Get userId from req.user
-    const { account_id } = req.params;
+    const { id: accountId } = req.params; // Get account id from the URL parameters
     const { description, source, amount } = req.body;
 
-    if (!(description || source || amount)) {
-      return res.status(403).json({
+    // Validate input
+    if (!description || !source || !amount) {
+      return res.status(400).json({
         status: "failed",
-        message: "Provide Required Fields!",
+        message: "Please provide all required fields.",
       });
     }
 
-    if (Number(amount) <= 0)
-      return res
-        .status(403)
-        .json({ status: "failed", message: "Amount should be greater than 0." });
-
-    const result = await pool.query({
-      text: `SELECT * FROM tblaccount WHERE id = $1`,
-      values: [account_id],
-    });
-
-    const accountInfo = result.rows[0];
-
-    if (!accountInfo) {
-      return res
-        .status(404)
-        .json({ status: "failed", message: "Invalid account information." });
+    const newAmount = Number(amount);
+    if (newAmount <= 0) {
+      return res.status(400).json({
+        status: "failed",
+        message: "Amount should be greater than 0.",
+      });
     }
 
-    if (
-      accountInfo.account_balance <= 0 ||
-      accountInfo.account_balance < Number(amount)
-    ) {
+    // Check if the account exists
+    const accountResult = await pool.query({
+      text: `SELECT * FROM tblaccount WHERE id = $1`,
+      values: [accountId],
+    });
+
+    const accountInfo = accountResult.rows[0];
+    if (!accountInfo) {
+      return res.status(404).json({
+        status: "failed",
+        message: "Invalid account information.",
+      });
+    }
+
+    // Check for sufficient balance (if applicable)
+    if (accountInfo.account_balance < newAmount) {
       return res.status(403).json({
         status: "failed",
         message: "Transaction failed. Insufficient account balance.",
@@ -176,14 +179,14 @@ export const addTransaction = async (req, res) => {
     // Update account balance
     await pool.query({
       text: `UPDATE tblaccount SET account_balance = account_balance - $1, updatedat = CURRENT_TIMESTAMP WHERE id = $2`,
-      values: [amount, account_id],
+      values: [newAmount, accountId],
     });
 
     // Insert into transactions
-    await pool.query({
+    const transactionResult = await pool.query({
       text: `INSERT INTO tbltransaction(user_id, description, type, status, amount, source) 
-             VALUES($1, $2, $3, $4, $5, $6)`,
-      values: [userId, description, "expense", "Completed", amount, source],
+             VALUES($1, $2, 'expense', 'Completed', $3, $4) RETURNING *`,
+      values: [userId, description, newAmount, source],
     });
 
     // Commit Transaction
@@ -192,9 +195,10 @@ export const addTransaction = async (req, res) => {
     res.status(200).json({
       status: "success",
       message: "Transaction completed successfully.",
+      data: transactionResult.rows[0], // Return the transaction data
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ status: "failed", message: error.message });
   }
 };

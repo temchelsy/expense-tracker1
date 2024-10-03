@@ -12,12 +12,12 @@ const authMiddleware = async (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Ensure this matches your token secret
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Fetch user details from the database
     const userResult = await pool.query({
       text: `SELECT id, firstname, email FROM tbluser WHERE id = $1`,
-      values: [decoded.userId], // Ensure decoded.userId is the same as what you used to create the token
+      values: [decoded.userId],
     });
 
     const user = userResult.rows[0];
@@ -26,8 +26,8 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ status: "failed", message: "Unauthorized: User not found." });
     }
 
-    // Attach user information to the request object
-    req.user = user;
+    // Attach user information to the req.body object (consistent with your controller)
+    req.body.user = user;
 
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
@@ -35,5 +35,6 @@ const authMiddleware = async (req, res, next) => {
     res.status(500).json({ status: "failed", message: "Internal Server Error." });
   }
 };
+
 
 export default authMiddleware;

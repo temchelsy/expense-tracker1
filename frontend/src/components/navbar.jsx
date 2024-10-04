@@ -1,8 +1,9 @@
 import React from "react";
 import { RiCurrencyLine } from "react-icons/ri";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import ThemeSwitch from './themeswitch'
-import { useAppContext } from '../providers/app-context'
+import { Link } from "react-router-dom"; // Import Link for navigation
+import ThemeSwitch from './themeswitch';
+import { useAppContext } from '../providers/app-context';
 
 const Navbar = () => {
   const { currentUser, loading, error } = useAppContext();  // Get currentUser and loading states
@@ -29,10 +30,16 @@ const Navbar = () => {
       </div>
 
       <div className="hidden md:flex items-center gap-4">
-        <div className="px-6 py-2 rounded-full bg-black text-white">Dashboard</div>
-        <div className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
+        <Link to="/dashboard" className="px-6 py-2 rounded-full bg-black text-white">
+          Dashboard
+        </Link>
+        <Link to="/transactions" className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
           Transactions
-        </div>
+        </Link>
+        {/* New link to the Accounts page */}
+        <Link to="/accounts" className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
+          Accounts
+        </Link>
       </div>
 
       <div className="flex items-center gap-10">

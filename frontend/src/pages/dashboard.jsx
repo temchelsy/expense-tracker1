@@ -4,6 +4,7 @@ import DoughnutChart from '../components/doughnutchart.jsx';
 import Navbar from '../components/navbar.jsx'
 import Chart from '../components/chart.jsx'
 import { fetchCurrentUser } from '../providers/api.js';
+import stats from '../components/stats.jsx'
 
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
@@ -42,6 +43,7 @@ const Dashboard = () => {
 
         {/* Render the Chart component with user transactions */}
         <Chart data={transactions} />
+        <stats />
         
         {/* Render the DoughnutChart component with total income and expenses */}
         <DoughnutChart income={totalIncome} expense={totalExpense} />

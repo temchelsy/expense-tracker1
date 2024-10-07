@@ -1,32 +1,31 @@
-import { API_BASE_URL } from "../contants/contants"; // Use the API base URL constant
+
+import  {API_BASE_URL} from '../contants/contants'
 
 const fetchCurrentUser = async () => {
   const token = localStorage.getItem('token');
 
-  if (!token) return null; // Ensure token exists
+  if (!token) return null; 
 
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/me`, { // Ensure correct endpoint
-      method: 'GET', // Explicitly specify the GET method
+    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+      method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok'); // Handle non-2xx responses
+      throw new Error('Network response was not ok');
     }
 
-    const data = await response.json(); // Parse JSON response
+    const data = await response.json();
     console.log('Protected data:', data);
 
     return data;
   } catch (error) {
-    console.error('Error fetching protected data:', error); // Catch and log errors
-    return null; // Return null on error
+    console.error('Error fetching protected data:', error);
+    return null;
   }
 };
 
-export {
-  fetchCurrentUser
-}
+export default fetchCurrentUser;  

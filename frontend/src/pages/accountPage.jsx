@@ -48,14 +48,14 @@ const AccountPage = () => {
       console.error('Error fetching accounts:', error.response || error.message);
       toast.error(error?.response?.data?.message || 'Failed to fetch accounts');
     } finally {
-      setIsLoading(false); // End loading
+      setIsLoading(false); 
     }
   };
 
   useEffect(() => {
     if (user?.token) {
-      setAuthToken(user.token); // Set token for authorization
-      fetchAccounts(); // Fetch accounts on mount
+      setAuthToken(user.token); 
+      fetchAccounts(); 
     } else {
       toast.error('User not authenticated'); // Handle unauthenticated state
     }

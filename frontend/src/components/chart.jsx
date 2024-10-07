@@ -1,4 +1,3 @@
-// src/components/Chart.js
 import React from "react";
 import {
   CartesianGrid,
@@ -10,7 +9,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-// import Title from "./Title";
 import Title from "./title";
 
 const Chart = ({ data }) => {
@@ -19,13 +17,14 @@ const Chart = ({ data }) => {
       <Title title="Transaction Activity" />
 
       <ResponsiveContainer width={"100%"} height={500} className="mt-5">
-        <LineChart width={500} height={300} data={data}>
+        <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <YAxis />
-          <XAxis />
+          <XAxis dataKey="name" />
           <Legend />
-          <Line type="monotone" dataKey={"income"} stroke="#8884d8" />
-          <Line type="monotone" dataKey={"expense"} stroke="#82ca9d" />
+          <Tooltip />
+          <Line type="monotone" dataKey="income" stroke="#8884d8" />
+          <Line type="monotone" dataKey="expense" stroke="#82ca9d" />
         </LineChart>
       </ResponsiveContainer>
     </div>

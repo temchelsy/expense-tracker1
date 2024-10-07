@@ -1,19 +1,19 @@
 import React from "react";
 import { RiCurrencyLine } from "react-icons/ri";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom"; 
 import ThemeSwitch from './themeswitch';
 import { useAppContext } from '../providers/app-context';
 
 const Navbar = () => {
-  const { currentUser, loading, error } = useAppContext();  // Get currentUser and loading states
+  const { currentUser, loading, error } = useAppContext();  
 
-  // If still loading, show a loading message
+  
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // If there's an error, display it
+  
   if (error) {
     return <div>{error}</div>;
   }
@@ -21,7 +21,7 @@ const Navbar = () => {
   return (
     <div className="w-full flex items-center justify-between py-6">
       <div className="flex items-center gap-2 cursor-pointer">
-        <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-violet-700 rounded-xl">
+        <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-blue-400 rounded-xl">
           <RiCurrencyLine className="text-white text-3xl hover:animate-spin" />
         </div>
         <span className="text-xl font-bold text-black dark:text-white">
@@ -30,15 +30,18 @@ const Navbar = () => {
       </div>
 
       <div className="hidden md:flex items-center gap-4">
-        <Link to="/dashboard" className="px-6 py-2 rounded-full bg-black text-white">
+        <Link to="/dashboard" className="px-6 py-2 rounded-full bg-blue-400 text-white">
           Dashboard
         </Link>
         <Link to="/transactions" className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
           Transactions
         </Link>
-        {/* New link to the Accounts page */}
+       
         <Link to="/accounts" className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
           Accounts
+        </Link>
+        <Link to="/settings" className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
+          Settings
         </Link>
       </div>
 

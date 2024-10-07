@@ -5,7 +5,8 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Dashboard from './pages/dashboard';
 import LandingPage from "./pages/landingPage"; 
-import AccountPage from "./pages/accountPage";  // Make sure this is correctly imported
+import AccountPage from "./pages/accountPage";  
+import Settings from "./pages/settings";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/accounts" element={<AccountPage />} /> {/* Added route for AccountPage */}
+          <Route path="/accounts" element={<AccountPage />} /> 
+          <Route path="/settings" element={<Settings />} /> 
         </Routes>
       </Router>
     </AppContextProvider>

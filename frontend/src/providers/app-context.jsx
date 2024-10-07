@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchCurrentUser } from "./api";
+import fetchCurrentUser from "./api";
 
 const AppContext = createContext(null);
 

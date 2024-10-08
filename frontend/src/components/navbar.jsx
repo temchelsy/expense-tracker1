@@ -1,19 +1,35 @@
 import React from "react";
 import { RiCurrencyLine } from "react-icons/ri";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { Link } from "react-router-dom"; 
+import { MdLogout } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom"; 
 import ThemeSwitch from './themeswitch';
 import { useAppContext } from '../providers/app-context';
 
 const Navbar = () => {
-  const { currentUser, loading, error } = useAppContext();  
+  const { currentUser, loading, error, setCurrentUser } = useAppContext();  
+  const navigate = useNavigate();
 
-  
+  const handleLogout = () => {
+    try {
+      // Clear the user's session
+      localStorage.removeItem('token'); // Assuming you store the token in localStorage
+      localStorage.removeItem('user'); // Remove user data if stored
+
+      // Update the context
+      setCurrentUser(null);
+
+      // Redirect to login page
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // You might want to show an error message to the user here
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  
   if (error) {
     return <div>{error}</div>;
   }
@@ -36,7 +52,6 @@ const Navbar = () => {
         <Link to="/transactions" className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
           Transactions
         </Link>
-       
         <Link to="/accounts" className="px-6 py-2 rounded-full text-gray-700 dark:text-gray-500">
           Accounts
         </Link>
@@ -45,24 +60,27 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-4">
         <ThemeSwitch />
 
-        <div className="flex items-center gap-2">
-          {/* Display user information when available */}
-          {currentUser ? (
-            <>
-              <p className="text-lg font-medium text-black dark:text-gray-400">
-                {currentUser.name}
-              </p>
-              <MdOutlineKeyboardArrowDown className="text-2xl text-gray-600 dark:text-gray-300 cursor-pointer" />
-            </>
-          ) : (
+        {currentUser ? (
+          <div className="flex items-center gap-2">
             <p className="text-lg font-medium text-black dark:text-gray-400">
-              logout
+              {currentUser.name}
             </p>
-          )}
-        </div>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1 px-3 py-1 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors"
+            >
+              <MdLogout />
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Link to="/login" className="px-6 py-2 rounded-full bg-blue-400 text-white hover:bg-blue-500 transition-colors">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

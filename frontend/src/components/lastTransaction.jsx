@@ -29,7 +29,7 @@ const RecentTransactions = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((item, index) => {
+            {data?.map((item, index) => (
               <tr
                 key={index}
                 className="text-sm text-gray-600 border-b border-gray-200 dark:border-gray-700 dark:text-gray-500"
@@ -64,21 +64,19 @@ const RecentTransactions = ({ data }) => {
                 </td>
 
                 <td className="flex items-center px-2 py-4 font-medium text-black dark:text-gray-400">
-                <span
-  className={`${
-    item?.type === 'income'
-      ? 'text-emerald-600'   
-      : 'text-red-600'      
-  }`}
->
-{item?.type === 'income' ? '*' : '*'}
-
-</span>
-{formatCurrency(item?.amount) }
-
+                  <span
+                    className={`${
+                      item?.type === 'income'
+                        ? 'text-emerald-600'   
+                        : 'text-red-600'      
+                    }`}
+                  >
+                    {item?.type === 'income' ? '+' : '-'}
+                  </span>
+                  {formatCurrency(item?.amount)}
                 </td>
-              </tr>;
-            })}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

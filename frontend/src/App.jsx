@@ -7,6 +7,7 @@ import Dashboard from './pages/dashboard';
 import LandingPage from "./pages/landingPage"; 
 import AccountPage from "./pages/accountPage";  
 import Settings from "./pages/settings";
+import Transactions from "./pages/transactions";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/accounts" element={<AccountPage />} /> 
           <Route path="/settings" element={<Settings />} /> 
+          <Route path="/transactions" element={<Transactions />} /> 
         </Routes>
       </Router>
     </AppContextProvider>

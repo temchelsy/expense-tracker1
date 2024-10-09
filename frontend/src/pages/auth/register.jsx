@@ -1,4 +1,3 @@
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -9,15 +8,15 @@ export default function Register() {
   const [firstname, setFirstname] = useState(""); 
   const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState(""); 
-  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password
-  const [errorMessage, setErrorMessage] = useState(""); // State for error messages
-  const { setCurrentUser } = useAppContext(); // Custom hook for user context
-  const navigate = useNavigate(); // Hook for navigation
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const { setCurrentUser } = useGlobalContext(); // Changed from useAppContext to useGlobalContext
+  const navigate = useNavigate();
 
-  const handleFirstnameChange = (e) => setFirstname(e.target.value); // Handler for firstname input
-  const handleEmailChange = (e) => setEmail(e.target.value); // Handler for email input
-  const handlePasswordChange = (e) => setPassword(e.target.value); // Handler for password input
-  const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value); // Handler for confirm password input
+  const handleFirstnameChange = (e) => setFirstname(e.target.value);
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,30 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { getDateSevenDaysAgo } from "../libs";
 
-const DateRange = ({ startDate, endDate, setStartDate, setEndDate }) => {
+const DateRange = () => {
+    const sevenDaysAgo = getDateSevenDaysAgo();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const [dateForm, setDateForm] = useState(() => {
+        const df = searchParams.get('df'); // Fixed df being accessed as a string
+        return df && new Date(df).getTime() <= new Date().getTime()
+            ? df
+            : sevenDaysAgo || new Date().toISOString().split('T')[0]; // Fix split typo
+    });
+
+    const [dateTo, setDateTO] = useState(() => {
+        const dt = searchParams.get('dt');
+        return dt && new Date(dt).getTime() >= new Date(dateForm).getTime()
+            ? dt
+            : new Date().toISOString().split('T')[0]; // Fix split typo
+    });
+
+    useEffect(() => {
+        setSearchParams({ df: dateForm, dt: dateTo });
+    }, [dateForm, dateTo]);
+
+    const handleDateFromChange = (e) => {
+        const dt = e.target.value;
+        setDateTO(dt);
+        if (new Date(dt).getTime() < new Date(dateForm).getTime()) {
+            setDateForm(dt);
+        }
+    };
+
     return (
-        <div className="flex flex-col md:flex-row items-center gap-4">
-            <div className="flex flex-col">
-                <label htmlFor="start-date" className="text-sm text-gray-600 dark:text-gray-400">
-                    Start Date
+        <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+                <label 
+                    className="block text-gray-700 dark:text-gray-400 text-sm mb-2"
+                    htmlFor="datefrom"
+                >
+                    Filter
                 </label>
-                <input
-                    id="start-date"
+                <input 
+                    className="inputStyles"
+                    name="dateFrom"
                     type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-gray-700 dark:text-gray-400 bg-transparent"
+                    max={dateTo}
+                    value={dateForm}
+                    onChange={handleDateFromChange}
                 />
             </div>
-            <div className="flex flex-col">
-                <label htmlFor="end-date" className="text-sm text-gray-600 dark:text-gray-400">
-                    End Date
+            <div className="flex items-center gap-1">
+                <label
+                    className="block text-gray-700 dark:text-gray-400 text-sm mb-2"
+                    htmlFor="dateTo"
+                >
+                    TO
                 </label>
-                <input
-                    id="end-date"
+                <input 
+                    className="inputStyles"
+                    name="dateTo"
                     type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 text-gray-700 dark:text-gray-400 bg-transparent"
+                    max={dateTo} // Fix "m" to "max"
+                    value={dateTo} // Fix to use correct dateTo value
+                    onChange={handleDateFromChange}
                 />
             </div>
         </div>

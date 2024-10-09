@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppContext } from "../../providers/app-context";
+import { useGlobalContext } from "../../context/globalContext";
 
 export default function Register() {
   const [firstname, setFirstname] = useState(""); 

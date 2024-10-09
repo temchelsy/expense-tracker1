@@ -7,7 +7,7 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { MdAdb } from 'react-icons/md';
 import { CiExport } from 'react-icons/ci';
 import * as XLSX from 'xlsx'; 
-import DateRange from '../components/dataRange';
+import DateRange from '../components/data-range';
 
 const Transactions = () => {
     const [searchParams, setSearchParams] = useSearchParams();

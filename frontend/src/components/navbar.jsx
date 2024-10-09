@@ -3,10 +3,10 @@ import { RiCurrencyLine } from "react-icons/ri";
 import { MdLogout } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom"; 
 import ThemeSwitch from './themeswitch';
-import { useAppContext } from '../providers/app-context';
+import { useGlobalContext } from "../context/globalContext";
 
 const Navbar = () => {
-  const { currentUser, loading, error, setCurrentUser } = useAppContext();  
+  const { currentUser, loading, error, setCurrentUser } = useGlobalContext();  
   const navigate = useNavigate();
 
   const handleLogout = () => {

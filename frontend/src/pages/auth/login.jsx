@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppContext } from "../../providers/app-context"; 
+import { useGlobalContext } from "../../context/globalContext"; // Update the import path
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Add loading state
-  const { setCurrentUser } = useAppContext(); // Access context to set current user
+  const { setCurrentUser } = useGlobalContext(); // Access context to set current user
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -98,7 +98,7 @@ export default function Login() {
 
         <h4 className="text-primary mt-6">Don't Have An Account?</h4>
         <Link
-          to="/Register" 
+          to="/register" 
           className="w-full bg-secondary text-black py-2 rounded-md hover:bg-secondary-white transition-colors mt-2 text-center"
         >
           Register Here

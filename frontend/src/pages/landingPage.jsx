@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import Register from './auth/register';
-import Login from './auth/login';
 import { Link } from "react-router-dom";
 import { XIcon } from "@heroicons/react/outline";
+import { useGlobalContext } from '../context/globalContext'; // Update the import path
+
+import Register from './auth/register';
+import Login from './auth/login';
 
 const LandingPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoginModal, setIsLoginModal] = useState(false);
+  const { currentUser, setCurrentUser } = useGlobalContext(); // Use the unified context
 
   const openRegisterModal = () => {
     setShowModal(true);
@@ -20,6 +23,12 @@ const LandingPage = () => {
 
   const closeModal = () => setShowModal(false);
 
+  const handleLogin = (userData) => {
+    // Perform login logic here
+    // For example, after successful login, you can update the current user state
+    setCurrentUser(userData); // Assuming userData is the logged-in user data
+  };
+
   return (
     <div className="bg-gray-100 text-gray-900">
       <header className="bg-white shadow-md py-2 w-full z-10">
@@ -28,8 +37,14 @@ const LandingPage = () => {
           <nav className="flex-grow mt-2 md:mt-0">
             <div className="flex items-center justify-end">
               <Link to="#about" className="mx-2 text-gray-700 hover:text-blue-500 md:mx-4">About Us</Link>
-              <button onClick={openLoginModal} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 md:ml-4">Login</button>
-              <button onClick={openRegisterModal} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 md:ml-4">Register</button>
+              {!currentUser ? (
+                <>
+                  <button onClick={openLoginModal} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 md:ml-4">Login</button>
+                  <button onClick={openRegisterModal} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 md:ml-4">Register</button>
+                </>
+              ) : (
+                <button onClick={() => setCurrentUser(null)} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 md:ml-4">Logout</button>
+              )}
             </div>
           </nav>
         </div>
@@ -51,7 +66,9 @@ const LandingPage = () => {
           <div className="md:w-1/2">
             <h2 className="text-4xl font-bold mb-2">Simple Expense Tracker</h2>
             <p className="text-lg mb-6">It takes seconds to record daily transactions and put them into clear and visualized categories such as food, rent, and electricity bills.</p>
-            <button onClick={openRegisterModal} className="px-6 py-3 bg-white text-blue-500 rounded hover:bg-gray-200">Get Started</button>
+            {!currentUser && (
+              <button onClick={openRegisterModal} className="px-6 py-3 bg-white text-blue-500 rounded hover:bg-gray-200">Get Started</button>
+            )}
           </div>
         </div>
       </section>
@@ -66,23 +83,22 @@ const LandingPage = () => {
 
       {/* Modal for Login/Register */}
       {showModal && (
-  <div className="fixed inset-0 bg-blue-500 bg-opacity-50 flex items-center justify-center z-0">
-    <div className="fixed inset-0 z-40" onClick={closeModal} />
-    <div
-      className="bg-white p-6 rounded shadow-lg w-full max-w-md z-50 relative md:w-4/4"
-      style={{ height: '93%', maxHeight: '93%' }} // Reduced height by 7%
-    >
-      <button
-        className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700 focus:outline-none"
-        onClick={closeModal}
-      >
-        <XIcon className="h-6 w-6" />
-      </button>
-      {isLoginModal ? <Login /> : <Register />}
-    </div>
-  </div>
-)}
-
+        <div className="fixed inset-0 bg-blue-500 bg-opacity-50 flex items-center justify-center z-0">
+          <div className="fixed inset-0 z-40" onClick={closeModal} />
+          <div
+            className="bg-white p-6 rounded shadow-lg w-full max-w-md z-50 relative md:w-4/4"
+            style={{ height: '93%', maxHeight: '93%' }} // Reduced height by 7%
+          >
+            <button
+              className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+              onClick={closeModal}
+            >
+              <XIcon className="h-6 w-6" />
+            </button>
+            {isLoginModal ? <Login onLogin={handleLogin} /> : <Register />}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
